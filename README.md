@@ -1,5 +1,13 @@
 # GCP 防火墙屏蔽 CDN IP 避免产生流量扣费
-## （请 ⚠️注意：这个只是屏蔽3大厂商大部分cdn ip，不可能做到100%屏蔽的，因为这三大cdn厂商的cdn数据并不是实时公布它的ip的）
+## （请 ⚠️注意：请安装完指定的脚本或者其他程序后再来搞这个防火墙规则，不然ip禁止之后很多东西都安不上了。这个脚本只是屏蔽3大厂商大部分cdn ip，不可能做到100%屏蔽的，因为这三大cdn厂商的cdn数据并不是实时公布它的ip的）
+
+
+### 如何启用/禁用防火墙规则
+
+<p align="center">
+  <img src="images/firewall-rule.png" alt="gcp流量计算规则" width="500">
+</p>
+
 # GCP免费机器的区域以及注意事项
 ```
 us-west1 (俄勒冈) 美西
@@ -11,8 +19,29 @@ us-east1 (南卡罗来纳) 美东南
 硬盘 标准永久性磁盘-30G
 网络 网络服务层级-标准
 关闭 备份您的数据/备份/快照 和 可观测性-Ops Agent
+增加一个 nocdn的网络标记(因为后面的sh脚本里我是默认给nocdn的这个标记的机器做了防火墙规则，你如果忘记加这个标记，你要么自己去改防火墙规则（下图），要么自己用命令行给它加上标记)
 ```
----
+
+
+<p align="center">
+  <img src="images/tag.png" alt="tag" width="500">
+</p>
+
+
+### 防火墙规则里面的规则应用：
+<p align="center">
+  <img src="images/nocdn-tag.png" alt="nocdn-tag" width="500">
+</p>
+
+
+
+### 费用对照（你创建的gcp永久机对不对）
+
+<p align="center">
+  <img src="images/gcpfree.png" alt="gcp永久机配置" width="500">
+</p>
+
+
 ## 谷歌云的出入站流量使用
 ### 官网标出的CDN互联厂家分别是
 
@@ -130,7 +159,7 @@ gcloud compute instances list
 # 【必须需改1】：IP 文件路径（你的google账号名,这个文件夹自己本来就有）
 IP_FILE="/home/你的google账号名/akamai_firewall_rule.json"
 
-# 【可改2】：规则名称前缀(我给你改好了)
+# 【可改2】：规则名称前缀(你可以自己在这里改防火墙规则名)
 RULE_PREFIX="no-akamai"
 
 # 【一般不改】：网络名称（GCP 默认是 default）

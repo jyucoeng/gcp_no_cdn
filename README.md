@@ -11,6 +11,18 @@
 
 ---
 
+
+## 📊 CDN 地址来源
+
+| CDN 厂商 | 地址来源 |
+|---------|---------|
+| Cloudflare | [查看 CF 地址来源](https://www.cloudflare.com/zh-cn/ips/) |
+| Fastly | [查看 Fastly 地址来源](https://api.fastly.com/public-ip-list) |
+| Akamai | [查看 Akamai 地址来源](https://github.com/SecOps-Institute/Akamai-ASN-and-IPs-List/blob/master/akamai_ip_list.lst) |
+
+> **说明：** CF 和 Fastly 的 IP 数量较少，可手动添加到防火墙规则。Akamai IP 段较多，建议使用脚本批量导入(参见 create_akamai_firewall_rules.sh)。
+
+
 ## ⚙️ 防火墙规则设置
 
 ```
@@ -21,27 +33,16 @@
 协议：全部协议和端口
 动作：全部拒绝
 ```
+详细ip导入图示如下（以fastly ip作为示例）：
+<p align="center">
+  <img src="images/fastly.png" alt="fastly IP 来源" width="500">
+</p>
 
----
-
-## 📊 CDN 地址来源
-
-| CDN 厂商 | 地址来源 |
-|---------|---------|
-| Cloudflare | [查看 CF 地址来源](https://www.cloudflare.com/zh-cn/ips/) |
-| Fastly | [查看 Fastly 地址来源](https://api.fastly.com/public-ip-list) |
-| Akamai | [查看 Akamai 地址来源](https://github.com/SecOps-Institute/Akamai-ASN-and-IPs-List/blob/master/akamai_ip_list.lst) |
-
-> **说明：** CF 和 Fastly 的 IP 数量较少，可手动添加到防火墙规则。Akamai IP 段较多，建议使用脚本批量导入(参见下面教程)。
-
-
+下面是cloudflare ip的示例：
 <p align="center">
   <img src="images/cfcdn.png" alt="Cloudflare IP 来源" width="500">
 </p>
 
-<p align="center">
-  <img src="images/fastly.png" alt="fastly IP 来源" width="500">
-</p>
 
 ---
 
@@ -56,8 +57,7 @@
 
 ---
 
-## 🚀 GCP Cloud Shell 导入拦截 IP 规则（主要是导入Akamai的ip）
-
+## 🚀 GCP Cloud Shell 导入拦截 Akamai IP 规则
 ### 脚本功能
 
 - 从 `akamai_firewall_rule.json` 读取 IP 列表
@@ -156,7 +156,21 @@ done
 完成配置后，尝试访问使用这三家 CDN 的网站，如果无法正常访问则表示屏蔽成功。 比如akamai可以直接访问下面的地址来确认屏蔽成功(它用了akamai的cdn)，没屏蔽ip的话，这个地址正常应该是可以打开的，
 - https://a.markwu.eu.org/谷歌云gcp免费vps抢机amd测评教程/
 
+
+以下为akamai cdn屏蔽成功的示例图：
+
+<p align="center">
+  <img src="images/akamai屏蔽成功.png" alt="akamai屏蔽成功" width="700">
+</p>
 ---
+
+
+## 📖 参考来源
+
+- https://www.nodeseek.com/post-393299-1
+- https://a.markwu.eu.org/谷歌云gcp免费vps抢机amd测评教程/
+
+------
 # 下面这堆是给我自己参考用的（你们可以不用看）
 
 ## 🏷️ 给 VM 实例添加标签
@@ -186,12 +200,3 @@ gcloud compute instances describe 实例名 --zone=区域 --project=项目ID --f
 输出为 `[]` 表示尚未添加标签。
 
 ---
-
-
----
-
-## 📖 参考来源
-
-- https://www.nodeseek.com/post-393299-1
-- https://a.markwu.eu.org/谷歌云gcp免费vps抢机amd测评教程/
-

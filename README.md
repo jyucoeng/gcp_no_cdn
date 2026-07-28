@@ -146,9 +146,18 @@ done
 </p>
 
 <p align="center">
-  <img src="images/sh执行结果验证1.png" alt="执行结果验证1" width="700">
+  <img src="images/sh的执行结果验证1.png" alt="执行结果验证1" width="700">
 </p>
+
 ---
+
+## ✅ 验证规则是否生效
+
+完成配置后，尝试访问使用这三家 CDN 的网站，如果无法正常访问则表示屏蔽成功。 比如akamai可以直接访问下面的地址来确认屏蔽成功(它用了akamai的cdn)，没屏蔽ip的话，这个地址正常应该是可以打开的，
+- https://a.markwu.eu.org/谷歌云gcp免费vps抢机amd测评教程/
+
+---
+# 下面这堆是给我自己参考用的（你们可以不用看）
 
 ## 🏷️ 给 VM 实例添加标签
 
@@ -178,10 +187,6 @@ gcloud compute instances describe 实例名 --zone=区域 --project=项目ID --f
 
 ---
 
-## ✅ 验证规则是否生效
-
-完成配置后，尝试访问使用这三家 CDN 的网站，如果无法正常访问则表示屏蔽成功。 比如akamai可以直接访问下面的地址来确认屏蔽成功(它用了akamai的cdn)，没屏蔽ip的话，这个地址正常应该是可以打开的，
-- https://a.markwu.eu.org/谷歌云gcp免费vps抢机amd测评教程/
 
 ---
 

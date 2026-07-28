@@ -14,11 +14,11 @@
 
 ## 📊 CDN 地址来源
 
-| CDN 厂商 | 地址来源 |
-|---------|---------|
-| Cloudflare | [查看 CF 地址来源](https://www.cloudflare.com/zh-cn/ips/) |
-| Fastly | [查看 Fastly 地址来源](https://api.fastly.com/public-ip-list) |
-| Akamai | [查看 Akamai 地址来源](https://github.com/SecOps-Institute/Akamai-ASN-and-IPs-List/blob/master/akamai_ip_list.lst) |
+| CDN 厂商 | 地址来源 |  ipv4来源 |  ipv6来源 |
+|---------|---------|---------|---------|
+| Cloudflare | [查看 CF 地址来源](https://www.cloudflare.com/zh-cn/ips/) | [查看 CF ipv4来源](https://www.cloudflare.com/ips-v4/#) | [查看 CF ipv6来源](https://www.cloudflare.com/ips-v6/#) |
+| Fastly | [查看 Fastly 地址来源](https://api.fastly.com/public-ip-list) |[查看 Fastly ipv4来源](https://api.fastly.com/public-ip-list) |[查看 Fastly ipv6来源](https://api.fastly.com/public-ip-list) |
+| Akamai | [查看 Akamai 地址来源](https://github.com/SecOps-Institute/Akamai-ASN-and-IPs-List/blob/master/akamai_ip_list.lst) |[查看 Akamai 整合版IP来源](https://a.markwu.eu.org/wp-content/uploads/2025/07/%E6%95%B4%E7%90%86%E7%89%88akamai_ip_cleaned.txt) |[查看 Akamai 整合版IP json来源](https://a.markwu.eu.org/wp-content/uploads/2025/07/akamai_firewall_rule.json) |
 
 > **说明：** CF 和 Fastly 的 IP 数量较少，可手动添加到防火墙规则。Akamai IP 段较多，建议使用脚本批量导入(参见 create_akamai_firewall_rules.sh)。
 
@@ -73,13 +73,14 @@ gcloud compute instances list
 
 脚本文件：[create_akamai_firewall_rules.sh](create_akamai_firewall_rules.sh)
 
+只需要改IP_FILE 这个参数的路径值(akamai_firewall_rule.json 这个文件你自己上传到指定地方哦)，其他参数值我都给你改好了。
 ```bash
 #!/bin/bash
 
-# 【需改1】：IP 文件路径（你的google账号名,这个文件夹自己本来就有）
-IP_FILE="/home/你的google账号名/iplist.txt"
+# 【必须需改1】：IP 文件路径（你的google账号名,这个文件夹自己本来就有）
+IP_FILE="/home/你的google账号名/akamai_firewall_rule.json"
 
-# 【可改2】：规则名称前缀
+# 【可改2】：规则名称前缀(我给你改好了)
 RULE_PREFIX="no-akamai"
 
 # 【一般不改】：网络名称（GCP 默认是 default）

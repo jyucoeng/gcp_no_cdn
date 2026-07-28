@@ -1,4 +1,4 @@
-# GCP 防火墙屏蔽 CDN IP 避免产生流量扣费
+# GCP 防火墙屏蔽 CDN IP 避免产生流量扣费（请注意：这个只是屏蔽大部分，不可能做到100%屏蔽的，因为这三大cdn厂商的cdn数据并不是实时公布它的ip的）
 
 通过配置 GCP 防火墙规则，阻止出站流量访问 CDN 服务商的 IP 地址，避免产生不必要的流量费用。
 
@@ -155,7 +155,7 @@ done
 ## ✅ 验证规则是否生效
 
 完成配置后，尝试访问使用这三家 CDN 的网站，如果无法正常访问则表示屏蔽成功。 比如akamai可以直接访问下面的地址来确认屏蔽成功(它用了akamai的cdn)，没屏蔽ip的话，这个地址正常应该是可以打开的，
-- https://a.markwu.eu.org/谷歌云gcp免费vps抢机amd测评教程/
+- https://a.markwu.eu.org/%e8%b0%b7%e6%ad%8c%e4%ba%91gcp%e5%85%8d%e8%b4%b9vps%e6%8a%a2%e6%9c%ba%e6%b5%8b%e8%af%84%e6%95%99%e7%a8%8b/
 
 
 以下为akamai cdn屏蔽成功的示例图：
@@ -169,7 +169,7 @@ done
 ## 📖 参考来源
 
 - https://www.nodeseek.com/post-393299-1
-- https://a.markwu.eu.org/谷歌云gcp免费vps抢机amd测评教程/
+- https://a.markwu.eu.org/%e8%b0%b7%e6%ad%8c%e4%ba%91gcp%e5%85%8d%e8%b4%b9vps%e6%8a%a2%e6%9c%ba%e6%b5%8b%e8%af%84%e6%95%99%e7%a8%8b/
 
 ------
 # 下面这堆是给我自己参考用的（你们可以不用看）

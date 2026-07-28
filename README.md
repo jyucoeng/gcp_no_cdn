@@ -1,7 +1,44 @@
 # GCP 防火墙屏蔽 CDN IP 避免产生流量扣费（请注意：这个只是屏蔽大部分，不可能做到100%屏蔽的，因为这三大cdn厂商的cdn数据并不是实时公布它的ip的）
 
-通过配置 GCP 防火墙规则，阻止出站流量访问 CDN 服务商的 IP 地址，避免产生不必要的流量费用。
+## 谷歌云的出入站流量使用
+### 官网标出的CDN互联厂家分别是
 
+[Akamai+Cloudflare+Fastly](https://docs.cloud.google.com/network-connectivity/docs/cdn-interconnect?hl=zh-cn#cdn-interconnect-providers)
+
+---
+## gcp 里面的CDN的1G免费流量是什么意思？
+
+```
+除了通用的200GB标准层出站流量外，谷歌云的免费套餐中还提到了每月1GB的Cloud CDN出站流量。这与前述的200GB流量是不同类型且独立计算的。
+
+Cloud CDN（内容分发网络）：CDN是一种将您的网站或应用内容缓存到全球各地的边缘节点服务器上的服务。当用户请求访问时，会从离他们最近的节点获取内容，从而加快访问速度并降低源服务器的负载。
+
+1GB CDN免费流量的含义：这指的是通过谷歌云的Cloud CDN服务分发出去的流量。具体来说，当用户通过CDN节点获取到您存储在Google Cloud Storage或Compute Engine上的缓存内容时，这部分流量会从1GB的免费CDN出站流量中扣除
+```
+---
+## 按照谷歌解释，入站流量是不收费的，出站流量收费
+
+### 计费只发生在出站（Egress），也就是数据离开谷歌云的时候
+
+<p align="center">
+  <img src="images/200.png" alt="gcp流量计算规则" width="500">
+</p>
+
+
+---
+## ⚠️ 注意事项：
+
+```
+1、CDN流量不会算进200GB额度，这两个额度完全独立。
+
+- 网站启用CDN → 访问网站会走 Cloud CDN，消耗1GB里面的额度
+- 不启用CDN的网站 → 所有请求由 VM 响应，消耗200GB额度
+
+2、超过免费200G额度依然会产生费用：
+- CDN流量超出1GB后，费用较贵（按出口区域计费）
+- VM超过200GB也会产生费用，但费用相对便宜
+
+```
 ## 🎯 目标
 
 防火墙禁用流量出站到以下三家 CDN 服务商：
@@ -155,8 +192,7 @@ done
 ## ✅ 验证规则是否生效
 
 完成配置后，尝试访问使用这三家 CDN 的网站，如果无法正常访问则表示屏蔽成功。 比如akamai可以直接访问下面的地址来确认屏蔽成功(它用了akamai的cdn)，没屏蔽ip的话，这个地址正常应该是可以打开的，
-- https://a.markwu.eu.org/%e8%b0%b7%e6%ad%8c%e4%ba%91gcp%e5%85%8d%e8%b4%b9vps%e6%8a%a2%e6%9c%ba%e6%b5%8b%e8%af%84%e6%95%99%e7%a8%8b/
-
+- [谷歌云gcp免费vps抢机测评教程](https://a.markwu.eu.org/%e8%b0%b7%e6%ad%8c%e4%ba%91gcp%e5%85%8d%e8%b4%b9vps%e6%8a%a2%e6%9c%ba%e6%b5%8b%e8%af%84%e6%95%99%e7%a8%8b/)
 
 以下为akamai cdn屏蔽成功的示例图：
 
@@ -169,7 +205,7 @@ done
 ## 📖 参考来源
 
 - https://www.nodeseek.com/post-393299-1
-- https://a.markwu.eu.org/%e8%b0%b7%e6%ad%8c%e4%ba%91gcp%e5%85%8d%e8%b4%b9vps%e6%8a%a2%e6%9c%ba%e6%b5%8b%e8%af%84%e6%95%99%e7%a8%8b/
+- [谷歌云gcp免费vps抢机测评教程](https://a.markwu.eu.org/%e8%b0%b7%e6%ad%8c%e4%ba%91gcp%e5%85%8d%e8%b4%b9vps%e6%8a%a2%e6%9c%ba%e6%b5%8b%e8%af%84%e6%95%99%e7%a8%8b/)
 
 ------
 # 下面这堆是给我自己参考用的（你们可以不用看）

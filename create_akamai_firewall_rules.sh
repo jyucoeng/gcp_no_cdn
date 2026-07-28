@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# 【需改1】：IP 文件路径（改成你机器上存 IP 列表的实际路径）
-IP_FILE="/home/hsiangyu_lu/akamai_firewall_rule.json"
+# 【需改1】：IP 文件路径（改成你机器上存 IP 列表的实际路径），记得提前把这个json文件放到你指定的文件夹去。
+IP_FILE="/home/yunxiao/akamai_firewall_rule.json"
 
 # 【可改2】：规则名称前缀（建议个性化一点，避免和别人的冲突）
 RULE_PREFIX="no-akamai"

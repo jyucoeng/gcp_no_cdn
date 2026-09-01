@@ -172,7 +172,7 @@ DIRECTION="EGRESS"
 PRIORITY=1000
 
 # 【需改4】：目标实例标签
-TARGET_TAGS="no-akamai-acc"
+TARGET_TAGS="nocdn"
 
 # 【一般不改】：动作设为 deny 表示阻止流量
 ACTION="deny"

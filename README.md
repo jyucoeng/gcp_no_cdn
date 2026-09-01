@@ -19,7 +19,9 @@ us-east1 (南卡罗来纳) 美东南
 硬盘 标准永久性磁盘-30G
 网络 网络服务层级-标准
 关闭 备份您的数据/备份/快照 和 可观测性-Ops Agent
-增加一个 nocdn的网络标记(因为后面的sh脚本里我是默认给nocdn的这个标记的机器做了防火墙规则，你如果忘记加这个标记，你要么自己去改防火墙规则（下图），要么自己用命令行给它加上标记)
+增加一个 nocdn 的网络标记(因为后面的sh脚本里我是默认给nocdn的这个标记的机器做了防火墙规则，你如果忘记加这个标记，你要么自己去改防火墙规则（下图），要么自己用命令行给它加上标记)
+
+
 ```
 
 
@@ -150,9 +152,10 @@ gcloud compute instances list
 
 ### 第二步：运行脚本
 
+
 脚本文件：[create_akamai_firewall_rules.sh](create_akamai_firewall_rules.sh)
 
-只需要改IP_FILE 这个参数的路径值(akamai_firewall_rule.json 这个文件你自己上传到指定地方哦)，其他参数值我都给你改好了。
+只需要改IP_FILE 这个参数的路径值(akamai_firewall_rule.json 这个文件你自己上传到指定地方哦)和TARGET_TAGS，其他参数值我都给你改好了。
 ```bash
 #!/bin/bash
 

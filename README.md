@@ -10,7 +10,7 @@
 
 # GCP免费机器的区域以及注意事项
 ```
-us-west1 (俄勒冈) 美西
+us-west1 (俄勒冈) 美西--推荐
 us-central1 (爱荷华) 美中
 us-east1 (南卡罗来纳) 美东南
 三个区任选一个
@@ -21,6 +21,9 @@ us-east1 (南卡罗来纳) 美东南
 关闭 备份您的数据/备份/快照 和 可观测性-Ops Agent
 增加一个 nocdn 的网络标记(因为后面的sh脚本里我是默认给nocdn的这个标记的机器做了防火墙规则，你如果忘记加这个标记，你要么自己去改防火墙规则（下图），要么自己用命令行给它加上标记)
 
+<p align="center">
+  <img src="images/0094.png" alt="收费规则" width="500">
+</p>
 
 ```
 
@@ -90,6 +93,9 @@ Cloud CDN（内容分发网络）：CDN是一种将您的网站或应用内容�
 - **Fastly**
 - **Akamai**
 
+<p align="center">
+  <img src="images/0092.png" alt="3大服务商" width="500">
+</p>
 ---
 
 
@@ -99,7 +105,7 @@ Cloud CDN（内容分发网络）：CDN是一种将您的网站或应用内容�
 |---------|---------|---------|---------|
 | Cloudflare | [查看 CF 地址来源](https://www.cloudflare.com/zh-cn/ips/) | [查看 CF ipv4来源](https://www.cloudflare.com/ips-v4/#) | [查看 CF ipv6来源](https://www.cloudflare.com/ips-v6/#) |
 | Fastly | [查看 Fastly 地址来源](https://api.fastly.com/public-ip-list) |[查看 Fastly ipv4来源](https://api.fastly.com/public-ip-list) |[查看 Fastly ipv6来源](https://api.fastly.com/public-ip-list) |
-| Akamai | [查看 Akamai 地址来源](https://github.com/SecOps-Institute/Akamai-ASN-and-IPs-List/blob/master/akamai_ip_list.lst) |[查看 Akamai 整合版IP来源](https://a.markwu.eu.org/wp-content/uploads/2025/07/%E6%95%B4%E7%90%86%E7%89%88akamai_ip_cleaned.txt) |[查看 Akamai 整合版IP json来源](https://a.markwu.eu.org/wp-content/uploads/2025/07/akamai_firewall_rule.json) |
+| Akamai | [查看 Akamai 地址来源](https://github.com/SecOps-Institute/Akamai-ASN-and-IPs-List/blob/master/akamai_ip_list.lst) |[查看 Akamai 整合版IP来源](https://a.markwu.eu.org/wp-content/uploads/2025/07/%E6%95%B4%E7%90%86%E7%89%88akamai_ip_cleaned.txt) |[查看 Akamai来源](https://github.com/platformbuilds/Akamai-ASN-and-IPs-List/blob/master/akamai_ipv6_list.lst) |
 
 > **说明：** CF 和 Fastly 的 IP 数量较少，可手动添加到防火墙规则。Akamai IP 段较多，建议使用脚本批量导入(参见 create_akamai_firewall_rules.sh)。
 
@@ -115,6 +121,13 @@ Cloud CDN（内容分发网络）：CDN是一种将您的网站或应用内容�
 动作：全部拒绝
 ```
 详细ip导入图示如下（以fastly ip作为示例）：
+<p align="center">
+  <img src="images/0091.png" alt="防火墙" width="500">
+</p>
+
+<p align="center">
+  <img src="images/0093.png" alt="创建防火墙" width="500">
+</p>
 <p align="center">
   <img src="images/fastly.png" alt="fastly IP 来源" width="500">
 </p>
@@ -133,6 +146,7 @@ Cloud CDN（内容分发网络）：CDN是一种将您的网站或应用内容�
 |-----|------|
 | `1-cfcdn-ip.txt` | Cloudflare IP 列表 |
 | `2-fastly-ip.txt` | Fastly IP 列表 |
+| `3-akamai-ipv6.txt` | akamai IPv6 列表 |
 
 请分别将上述 txt 文件中的 IP 导入到防火墙规则中。
 
@@ -142,7 +156,7 @@ Cloud CDN（内容分发网络）：CDN是一种将您的网站或应用内容�
 ### 脚本功能
 
 - 从 `akamai_firewall_rule.json` 读取 IP 列表
-- 分批（每批最多 256 个 IP）批量创建 GCP 出站防火墙规则
+- 分批（每批最多 256 个 IP）,共计256+112=368个ipv4 批量创建 GCP 出站防火墙规则
 
 ### 第一步：查看 GCP VM 实例
 

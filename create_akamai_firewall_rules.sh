@@ -16,7 +16,7 @@ DIRECTION="EGRESS"
 PRIORITY=1000
 
 # 【需改4】：目标实例标签（只有打上这个标签的实例才会应用该规则）
-TARGET_TAGS="no-cdn"
+TARGET_TAGS="nocdn"
 
 # 【一般不改】：动作设为 deny 表示阻止流量
 ACTION="deny"

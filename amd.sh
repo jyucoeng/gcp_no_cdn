@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_ID="pure-genius-453815-n2"
+PROJECT_ID="pure-genius-00000-0000"
 INSTANCE_PREFIX="matins-gcp"
 ZONE="us-west1-a"
 

@@ -1,6 +1,30 @@
-# AMD 实例自动筛选脚本 (amd.sh)
+# AMD 实例自动筛选脚本 (amd.sh) ---脚本里忘记添加了http-server/https-server的网络标记，所以需要你在运行amd.sh后，自行用实例管理命令添加这2个网络标记
 
 自动创建 GCP VM 实例并筛选出 AMD CPU 平台的实例。
+
+---
+
+## 常用实例管理命令
+
+### 查看实例的 tags
+
+```bash
+gcloud compute instances describe 实例名称 \
+  --zone="实例对应的zone" \
+  --project="你的项目ID" \
+  --format="value(tags.items)"
+```
+
+### 给实例添加 http/https 网络标记（启用 Web 服务）
+
+```bash
+gcloud compute instances add-tags 实例名称 \
+  --zone="实例对应的zone" \
+  --project="你的项目ID" \
+  --tags="http-server,https-server"
+```
+
+> **说明**：添加 `http-server` 和 `https-server` 网络标记后，GCP 会自动创建对应的防火墙规则，允许 HTTP(80) 和 HTTPS(443) 流量入站。
 
 ---
 
@@ -81,9 +105,9 @@ bash amd.sh
 
 | 变量 | 说明 | 默认值 |
 |------|------|--------|
-| `PROJECT_ID` | GCP 项目 ID | `pure-genius-453815-n2` |
+| `PROJECT_ID` | GCP 项目 ID | `你的项目名称` |
 | `ZONE` | 可用区 | `us-west1-a`（俄勒冈） |
-| `INSTANCE_PREFIX` | 实例名称前缀 | `matins-gcp` |
+| `INSTANCE_PREFIX` | 实例名称前缀 | `abc-gcp` |
 
 ### 可选配置
 
@@ -100,12 +124,13 @@ bash amd.sh
 | `BATCH_SIZE` | 每轮并发创建数量 | `2` |
 | `MAX_IPS` | 区域外部IP配额上限 | `4` |
 
-### 配置示例
+### amd.sh需要修改配置的示例
 
 ```bash
-# 修改项目ID和区域
-PROJECT_ID="your-project-id"
-ZONE="us-central1-a"
+# 修改项目ID和实例取名的前缀和区域
+PROJECT_ID="你的项目名称"
+INSTANCE_PREFIX="你的实例名称前缀，请用英文数字和字母"
+ZONE="us-west1-c" # us-west1 代表俄勒冈，有 a/b/c三个机房编号，请自己修改，b区机器容易刷到amd
 
 # 修改机器类型（注意：非e2-micro可能产生费用）
 MACHINE_TYPE="e2-micro"

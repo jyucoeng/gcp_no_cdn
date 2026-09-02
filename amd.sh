@@ -1,8 +1,9 @@
 #!/bin/bash
 
-PROJECT_ID="pure-genius-453815-n2"
-INSTANCE_PREFIX="matins-gcp"
-ZONE="us-west1-a"
+# 只需要修改这里的4-6行的3个变量的值，其他的不要改
+PROJECT_ID="你的项目名称"
+INSTANCE_PREFIX="你的实例名称前缀，请用英文数字和字母"
+ZONE="us-west1-c" # us-west1 代表俄勒冈，有 a/b/c三个机房编号，请自己修改，b区机器容易刷到amd
 
 MACHINE_TYPE="e2-micro"
 IMAGE_FAMILY="debian-13"

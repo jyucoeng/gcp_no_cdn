@@ -113,6 +113,18 @@ if [ "\$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+# ORACLE 平台: 每次检查前确认 firewalld / ufw 未启用，否则停用
+if [ "\$PLATFORM" = "ORACLE" ]; then
+    if systemctl is-active --quiet firewalld 2>/dev/null; then
+        systemctl stop firewalld 2>/dev/null
+        log "运行时停用了 firewalld。"
+    fi
+    if command -v ufw >/dev/null 2>&1 && ufw status 2>/dev/null | grep -q 'active'; then
+        ufw --force disable >/dev/null 2>&1
+        log "运行时停用了 ufw。"
+    fi
+fi
+
 # ==========================================
 # 工具函数：获取本机公网 IPv4 并打码 + 国家/城市
 # IP 打码规则: 152.69.206.146 -> 152.69.***.146

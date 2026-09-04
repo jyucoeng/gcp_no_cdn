@@ -40,8 +40,27 @@ PLATFORM=ORACLE -> LIMIT=9216   (9TB，贴近免费层约10TB额度)
 
 > 若想手动指定一个固定上限，直接给 `LIMIT` 赋值即可（如 `LIMIT=500`）。
 
-### ORACLE 平台额外行为
-当 `PLATFORM=ORACLE` 时，部署脚本会自动**停用 firewalld / ufw**，并清空 iptables 现有规则，避免与脚本的 iptables 规则冲突（Oracle 实例常预装 ufw）。GCP 平台不做此处理。
+### ORACLE 平台额外行为（为什么需要停用 firewalld / ufw）
+
+**ufw / firewalld 与 iptables 的关系：**
+`ufw`（Ubuntu）和 `firewalld`（RHEL 系）是 iptables 的**前端管理工具**，不是替代品。它们最终都是操作 iptables/nftables 来管理防火墙规则。如果同时让它们和脚本直接操作 iptables，**规则会互相冲突覆盖**，导致封网失效。
+
+本脚本的封网机制（自定义链 + 顶部跳转 + comment 精确删除）是 ufw/firewalld **无法表达的精细操作**，所以必须**直接操作 iptables**。为了让直接操作的 iptables 规则稳定生效，必须先停掉 ufw/firewalld，保证没有其他前端在接管 iptables。
+
+**Oracle 实例的处理流程：**
+```
+Oracle 实例启动
+    ↓
+ufw / firewalld 默认开启（会接管/覆盖 iptables 规则）
+    ↓
+脚本先停掉它们（ufw disable / systemctl stop firewalld）→  使 iptables 处于干净状态
+    ↓
+脚本直接操作 iptables（封网/放行/解网）
+```
+- **部署时**：自动停用并禁用 firewalld / ufw。
+- **每次 `check_traffic.sh` 运行时**：兜底检测一次，若发现被重新启用则再次停用（仅 `PLATFORM=ORACLE` 执行，GCP 跳过）。
+
+仅停用，不做任何全局清空，不影响其他程序。GCP 默认镜像无这两个组件，不需要处理。
 
 ---
 

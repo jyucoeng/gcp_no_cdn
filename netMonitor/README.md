@@ -1,7 +1,7 @@
 # netMonitor — 流量监控自动部署脚本
 
 针对 **GCP / Oracle Cloud** 的 Linux 实例（Ubuntu/Debian apt 系）的流量监控与自动止损脚本。
-通过监控网卡出站流量 (TX)，超限后**双向封网**（INPUT + OUTPUT 全部 DROP，仅保留 SSH / DNS / lo），并通过 TG 通知状态变化。
+通过监控网卡出站流量 (TX)，超限后**全局封锁**（INPUT + OUTPUT + FORWARD 三条链跳转至自定义链，链内仅放行 SSH / DNS / lo），并通过 TG 通知状态变化。
 
 > 注意：仅适用于 Debian/Ubuntu（使用 `apt-get`、`systemctl`、`crontab`）。**不支持 Alpine**（其使用 `apk` / OpenRC / `crond`）。
 

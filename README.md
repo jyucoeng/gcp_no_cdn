@@ -265,8 +265,8 @@ done
 
 - https://www.nodeseek.com/post-393299-1
 - [谷歌云gcp免费vps抢机测评教程](https://a.markwu.eu.org/%e8%b0%b7%e6%ad%8c%e4%ba%91gcp%e5%85%8d%e8%b4%b9vps%e6%8a%a2%e6%9c%ba%e6%b5%8b%e8%af%84%e6%95%99%e7%a8%8b/)
-
 ------
+
 # 下面这堆是给我自己参考用的（你们可以不用看）
 
 ## 🏷️ 给 VM 实例添加标签
@@ -296,3 +296,31 @@ gcloud compute instances describe 实例名 --zone=区域 --project=项目ID --f
 输出为 `[]` 表示尚未添加标签。
 
 ---
+
+## 🚀 更多项目（推荐）
+
+下面两个项目与本项目互补，按需选用，**推荐优先阅读**：
+
+### ① GCP 检测到访问 CDN 时分流到其他小鸡节点
+
+解决 GCP 对 CDN 网段出站单独计费且昂贵的问题：dae（eBPF 透明代理）按目的
+IP 是否命中 CDN 网段分流——命中的流量经你自备的 vless/vmess/trojan/hysteria2/
+tuic/anytls 节点中转，其余流量直连本机，避开高额计费。
+
+```bash
+curl -fsSL https://github.com/jyucoeng/gcp_traffic_routing/releases/latest/download/install.sh | bash
+```
+
+完整部署 / 添加节点 / 分流验证（四路实测命令与日志佐证）见：
+
+- **使用指南**：<https://github.com/jyucoeng/gcp_traffic_routing/blob/main/usage-routing.md>
+
+### ② 流量监控（达到预设流量值后自动断网，仅保留 SSH 登录）
+
+实时监控 GCP 实例出站流量，达到预设阈值后自动切断外网（只保留 SSH），
+防止免费额度被意外耗尽：
+
+- **流量监控说明**：<https://github.com/jyucoeng/gcp_traffic_routing/blob/main/readme-net.md>
+
+> 两者可叠加使用：先用①把 CDN 流量分流到便宜节点省流量费，
+> 再用②流量监控兜底防止超额断网。
